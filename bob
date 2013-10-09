@@ -82,16 +82,23 @@ tab-scripts-2 () {
 	ls $DIRNAME/scripts
 }
 
-opt scripts --gzip,-g
+opt scripts --gzip,-g --dir,-d
 cmd-scripts () {
 	set-remote $1
 	TAR_OPTS="c"
+	BOB_SCRIPTS=$1.git/bob/scripts
 	opt --gzip && TAR_OPTS="cz"
 
 	if [ "$2" = "" ]; then
-		ssh $REMOTE "[ -d $1.git/bob/scripts ] && cd $1.git/bob/scripts && tar $TAR_OPTS ." || error Could not tarball scripts
+		if opt --dir; then
+			mkdir -p $opt_dir
+			cd $opt_dir
+			ssh $REMOTE "[ -d $BOB_SCRIPTS ] && cd $BOB_SCRIPTS && tar cz ." | tar xz
+		else
+			ssh $REMOTE "[ -d $BOB_SCRIPTS ] && cd $BOB_SCRIPTS && tar $TAR_OPTS ." || error Could not tarball scripts
+		fi
 	else
-		ssh $REMOTE "[ -f $1.git/bob/scripts/$2 ] && cat $1.git/bob/scripts/$2" || error Not a valid script
+		ssh $REMOTE "[ -f $BOB_SCRIPTS/$2 ] && cat $BOB_SCRIPTS/$2" || error Not a valid script
 	fi
 }
 
