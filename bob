@@ -1,0 +1,102 @@
+#!/bin/bash
+
+. $(which bashkit)
+
+tab-add () {
+	:
+}
+
+opt add --force,-f
+cmd-add () {
+	silent git status || error not a git repository
+	NAME=$1
+	REMOTE=$2
+
+	([ "$NAME" = "" ] || [ "$REMOTE" = "" ]) && error usage bob add [name] [remote]
+
+	REPO_NAME=$NAME.git
+	chmod +x $DIRNAME/scripts/*
+
+	(
+		opt --force && echo "rm -rf $REPO_NAME"
+		echo "[ -d $REPO_NAME ] && exit 0"
+		echo "mkdir -p $REPO_NAME"
+		echo "mkdir -p $REPO_NAME/bob"
+		echo "cd $REPO_NAME"
+		echo "git init --bare > /dev/null"
+	) | ssh $REMOTE bash
+
+	cd $DIRNAME
+	tar cz scripts post-receive | ssh $REMOTE "cd $REPO_NAME/bob && tar xz"
+
+	(
+		echo "cd $REPO_NAME"
+		echo "mv bob/post-receive hooks/post-receive"
+		echo "chmod +x hooks/post-receive"
+	) | ssh $REMOTE bash
+
+	cd $CWD
+	silent git remote rm $NAME
+	git remote add $NAME $REMOTE:$REPO_NAME
+	echo Added git remote $NAME -\> $REMOTE:$REPO_NAME
+}
+
+set-remote () {
+	silent git status || error Not a git repository
+	[ "$1" = "" ] && error Not a valid remote
+	REMOTE=$(git remote -v | grep ^$1 | awk '{print $2}' | sed 's/:.*//' | head -n 1)
+	[ "$REMOTE" = "" ] && error Not a valid remote
+}
+
+tab-2 () {
+	silent git status || exit 0
+	git remote -v | awk '{print $1}' | grep -v origin
+}
+
+tab-push-2 () {
+	git branch | sed 's/\* //'
+}
+
+cmd-push () {
+	set-remote $1 # just for sanity checks
+	git push $@
+}
+
+cmd-remove () {
+	set-remote $1
+	ssh $REMOTE rm -rf $1.git
+	echo "Remote removed. Note that this does not shutdown your servers"
+}
+
+tab-edit-script-2 () {
+	ls $DIRNAME/scripts | grep -v launcher
+}
+
+cmd-edit-script () {
+	set-remote $1
+	RAN=$1.$2
+
+	silent scp $REMOTE:$1.git/bob/scripts/$2 /tmp/$RAN
+	${EDITOR:-nano} /tmp/$RAN
+	silent scp /tmp/$RAN $REMOTE:$1.git/bob/scripts/$2
+}
+
+cmd-edit-launcher () {
+	cmd-edit-script $1 launcher
+}
+
+cmd-redeploy () {
+	set-remote $1
+	ssh $REMOTE "cd $1.git && hooks/post-receive"
+}
+
+cmd-restart () {
+	set-remote $1
+	(
+		echo "[ ! -d $1.git/bob/release ] && echo No release found && exit 1"
+		echo "cd $1.git/bob/release"
+		echo "[ -f ../scripts/restart ] && ../scripts/restart"
+	) | ssh $REMOTE bash
+}
+
+run

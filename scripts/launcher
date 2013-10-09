@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# This script should launch your app
+# If you are running node it should be something like:
+
+# export NODE_ENV=production
+# node .
