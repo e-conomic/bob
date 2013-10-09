@@ -26,3 +26,4 @@ All commands can be autocompleted by doing bob <tab><tab>
     reruns the deploy routing build->deploy->restart
     useful if you have updated any of your scripts
     or something has failed
+
