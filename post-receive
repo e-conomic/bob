@@ -6,7 +6,7 @@ export BOB_DIR="$PWD/bob"
 export BOB_NAME="$(basename $PWD | sed 's/.git$//')"
 export BOB_RELEASE="$PWD/bob/release"
 export BOB_RELEASE_TARBALL="$PWD/bob/release.tar.gz"
-export BOB_LAUNCHER=".bob-launcher"
+export BOB_LAUNCHER="bob-launcher"
 
 cd bob
 
