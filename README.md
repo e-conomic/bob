@@ -32,4 +32,8 @@ All commands can be autocompleted by doing bob <tab><tab>
     reruns the deploy routing build->deploy->restart
     useful if you have updated any of your scripts
     or something has failed
+
+  bob restart [remote]
+    will execute the restart script on the remote
+    this is a lightweight alternative to redeploy
 ```
