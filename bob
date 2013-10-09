@@ -129,4 +129,8 @@ cmd-restart () {
 	) | ssh $REMOTE bash
 }
 
+print-help () {
+	cat $DIRNAME/help
+}
+
 run
