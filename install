@@ -1,4 +1,16 @@
 #!/bin/bash
+
+if ! type sudo > /dev/null 2> /dev/null; then
+	# some sort git bash thingy
+	mkdir -p /usr/local
+	cd /usr/local
+	git clone https://github.com/e-conomic/bob.git || exit 1
+	cd bob
+	curl -fs https://raw.github.com/mafintosh/bashkit/master/bashkit > /bin/bashkit || exit 1
+	echo "$PWD/bob \$@" > /bin/bob
+	exit 0
+fi
+
 if ! which bashkit > /dev/null 2> /dev/null; then
 	printf "bob requires bashkit which is not installed...\n\n"
 	curl -fs https://raw.github.com/mafintosh/bashkit/master/install | bash

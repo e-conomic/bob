@@ -121,9 +121,10 @@ cmd-edit () {
 	set-remote $1
 	RAN=$1.$2
 
-	silent scp $REMOTE:$1.git/bob/scripts/$2 /tmp/$RAN
+	silent scp $REMOTE:$1.git/bob/scripts/$2 /tmp/$RAN || exit 1
 	${EDITOR:-vim} /tmp/$RAN
-	silent scp /tmp/$RAN $REMOTE:$1.git/bob/scripts/$2
+	silent scp /tmp/$RAN $REMOTE:$1.git/bob/scripts/$2 || exit 1
+	rm -f /tmp/$RAN
 }
 
 cmd-redeploy () {
