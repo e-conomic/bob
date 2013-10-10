@@ -35,7 +35,7 @@ cmd-add () {
 		echo "mkdir -p $REPO_NAME/bob"
 		echo "cd $REPO_NAME"
 		echo "git init --bare > /dev/null"
-	) | ssh $REMOTE bash
+	) | ssh $REMOTE bash || exit 1
 
 	if opt --scripts; then
 		TMP_DIR=/tmp/bob-$RANDOM
@@ -54,7 +54,7 @@ cmd-add () {
 		echo "cd $REPO_NAME"
 		echo "mv bob/post-receive hooks/post-receive"
 		echo "chmod +x hooks/post-receive"
-	) | ssh $REMOTE bash
+	) | ssh $REMOTE bash || exit 1
 
 	cd $CWD
 	silent git remote rm $NAME
@@ -85,7 +85,7 @@ cmd-push () {
 
 cmd-remove () {
 	set-remote $1
-	ssh $REMOTE rm -rf $1.git
+	ssh $REMOTE rm -rf $1.git || exit 1
 	echo "Remote removed. Note that this does not shutdown your servers"
 }
 
