@@ -42,4 +42,7 @@ All commands can be autocompleted by doing bob <tab><tab>
   bob restart [remote]
   will execute the restart script on the remote
   this is a lightweight alternative to redeploy
+
+  bob update
+  will update bob to the newest version
 ```
