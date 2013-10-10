@@ -28,9 +28,15 @@ cmd-add () {
 	REPO_NAME=$NAME.git
 	chmod +x $DIRNAME/scripts/*
 
+	if ! opt --force && ssh $REMOTE "[ -d $REPO_NAME ]"; then
+		silent git remote rm $NAME
+		git remote add $NAME $REMOTE:$REPO_NAME
+		echo Added git remote $NAME -\> $REMOTE:$REPO_NAME
+		return $?
+	fi
+
 	(
-		opt --force && echo "rm -rf $REPO_NAME"
-		echo "[ -d $REPO_NAME ] && exit 0"
+		echo "rm -rf $REPO_NAME"
 		echo "mkdir -p $REPO_NAME"
 		echo "mkdir -p $REPO_NAME/bob"
 		echo "cd $REPO_NAME"
