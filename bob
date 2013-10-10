@@ -2,8 +2,19 @@
 
 . $(which bashkit)
 
-tab-add () {
+tab-add-1 () {
 	:
+}
+
+tab-add-2 () {
+	USERNAME=${COMP_CUR/@*/}
+	for host in $(cat ~/.ssh/known_hosts | sed 's/[, ].*//'); do
+		if [ "$USERNAME" != "$COMP_CUR" ]; then
+			echo $USERNAME@$host
+		else
+			echo $host
+		fi
+	done
 }
 
 opt add --force,-f --scripts,-s
