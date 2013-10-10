@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. $(which bashkit)
+. $(which bashkit || echo bashkit)
 
 tab-add-1 () {
 	:
@@ -122,7 +122,7 @@ cmd-edit () {
 	RAN=$1.$2
 
 	silent scp $REMOTE:$1.git/bob/scripts/$2 /tmp/$RAN
-	${EDITOR:-nano} /tmp/$RAN
+	${EDITOR:-vim} /tmp/$RAN
 	silent scp /tmp/$RAN $REMOTE:$1.git/bob/scripts/$2
 }
 
