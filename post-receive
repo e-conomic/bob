@@ -6,7 +6,7 @@ export BOB_DIR="$PWD/bob"
 export BOB_NAME="$(basename $PWD | sed 's/.git$//')"
 export BOB_RELEASE="$PWD/bob/release"
 export BOB_RELEASE_TARBALL="$PWD/bob/release.tar.gz"
-export BOB_LAUNCHER="bob-launcher"
+export BOB_LAUNCH="bob-launch"
 
 cd bob
 
@@ -34,8 +34,8 @@ fi
 cd ../checkout
 rsync -ar --delete-after --exclude '/.git' . ../release
 cd ..
-cp scripts/launcher release/$BOB_LAUNCHER
-chmod +x release/$BOB_LAUNCHER
+cp scripts/launcher release/$BOB_LAUNCH
+chmod +x release/$BOB_LAUNCH
 cd release
 tar cz . > $BOB_RELEASE_TARBALL
 

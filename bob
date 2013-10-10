@@ -89,12 +89,12 @@ cmd-remove () {
 	echo "Remote removed. Note that this does not shutdown your servers"
 }
 
-tab-scripts-2 () {
+tab-fetch-2 () {
 	ls $DIRNAME/scripts
 }
 
-opt scripts --gzip,-g --dir,-d
-cmd-scripts () {
+opt fetch --gzip,-g --dir,-d
+cmd-fetch () {
 	set-remote $1
 	TAR_OPTS="c"
 	BOB_SCRIPTS=$1.git/bob/scripts
