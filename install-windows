@@ -1,2 +1,2 @@
-curl -s https://raw.github.com/mafintosh/bashkit/master/bashkit > bashkit
+curl -s https://raw.github.com/mafintosh/bashkit/master/bashkit > /bin/bashkit
 echo "$PWD/bob $@" > /bin/bob

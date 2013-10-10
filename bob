@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. $(which bashkit || echo bashkit)
+. $(which bashkit)
 
 tab-add-1 () {
 	:
