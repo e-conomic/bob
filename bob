@@ -140,6 +140,11 @@ cmd-restart () {
 	) | ssh $REMOTE bash
 }
 
+cmd-update () {
+	cd $DIRNAME
+	git pull
+}
+
 print-help () {
 	cat $DIRNAME/help
 }
