@@ -1,7 +1,7 @@
 # bob the builder
 
-Minimal deploy tool using git post-receive hooks
-After you install it run `bob` to get some help
+Minimal deploy tool using git post-receive hooks.
+After you install it run `bob` to get some help.
 
 ```
 Usage: bob [command] [remote] [options...]
