@@ -28,6 +28,7 @@ else
 	cd checkout
 fi
 
+[ -f ../scripts/profile ] && . ../scripts/profile || error Profile failed. Aborting...
 [ -f ../scripts/build ] && ../scripts/build || error Build failed. Aborting...
 
 cd ../checkout

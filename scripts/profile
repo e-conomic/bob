@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# This script is sourced before running any other script except the launcher.
+# Use this to setup shared env vars etc
