@@ -144,4 +144,9 @@ print-help () {
 	cat $DIRNAME/help
 }
 
+cmd () {
+	print-help
+	exit 1
+}
+
 run
