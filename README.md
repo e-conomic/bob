@@ -6,14 +6,17 @@ Minimal deploy tool using git post-receive hooks.
 
 On Unix
 
-  curl -fs https://raw.github.com/e-conomic/bob/master/install | bash && . $(bashkit rc)
+```
+curl -fs https://raw.github.com/e-conomic/bob/master/install | bash && . $(bashkit rc)
+```
 
 On Windows (using git bash or similar)
 
-  git clone https://github.com/e-conomic/bob.git
-  cd bob
-  sh install-windows
-
+```
+git clone https://github.com/e-conomic/bob.git
+cd bob
+sh install-windows
+```
 
 ## Usage
 
