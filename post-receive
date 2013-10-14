@@ -34,7 +34,7 @@ fi
 cd ../checkout
 rsync -ar --delete-after --exclude '/.git' . ../release
 cd ..
-cp scripts/launcher release/$BOB_LAUNCH
+cp scripts/bundled-launch release/$BOB_LAUNCH
 chmod +x release/$BOB_LAUNCH
 cd release
 tar cz . > $BOB_RELEASE_TARBALL
