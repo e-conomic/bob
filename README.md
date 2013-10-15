@@ -45,4 +45,8 @@ All commands can be autocompleted by doing bob <tab><tab>
 
   bob update
   will update bob to the newest version
+
+  bob remove
+  will execute the remove script on the remote
+  and remove the remote afterwards
 ```
