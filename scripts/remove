@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# This script should remove your deployed tarballs
+# and stop any running daemons

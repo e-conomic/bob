@@ -1,5 +1,5 @@
 #!/bin/bash
 
 # This script should start your app
-# $BOB_LAUNCH points to your bundled-launch script
+# cwd is your app and bundled-launch is located at ./bundled-launch.
 # $BOB_NAME is the name of the remote

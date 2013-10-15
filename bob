@@ -73,6 +73,8 @@ set-remote () {
 	[ "$1" = "" ] && error Not a valid remote
 	REMOTE=$(git remote -v | grep ^$1 | awk '{print $2}' | sed 's/:.*//' | head -n 1)
 	[ "$REMOTE" = "" ] && error Not a valid remote
+	NAME=$1
+	REPO_NAME=$1.git
 }
 
 tab-2 () {
@@ -91,8 +93,16 @@ cmd-push () {
 
 cmd-remove () {
 	set-remote $1
-	ssh $REMOTE rm -rf $1.git || exit 1
-	echo "Remote removed. Note that this does not shutdown your servers"
+
+	(
+		echo "[ ! -d $REPO_NAME/bob/release ] && echo No release found && exit 1"
+		echo "cd $REPO_NAME/bob/release"
+		echo "[ -f ../scripts/remove ] && ../scripts/remove || exit 1"
+		echo "cd"
+		echo "rm -rf $REPO_NAME"
+	) | ssh $REMOTE bash || exit 1
+
+	git remote rm $NAME
 }
 
 tab-fetch-2 () {
@@ -103,7 +113,7 @@ opt fetch --gzip,-g --dir,-d
 cmd-fetch () {
 	set-remote $1
 	TAR_OPTS="c"
-	BOB_SCRIPTS=$1.git/bob/scripts
+	BOB_SCRIPTS=$REPO_NAME/bob/scripts
 	opt --gzip && TAR_OPTS="cz"
 
 	if [ "$2" = "" ]; then
@@ -125,24 +135,25 @@ tab-edit-2 () {
 
 cmd-edit () {
 	set-remote $1
-	RAN=$1.$2
+	SCRIPT=$REPO_NAME/bob/scripts/$2
+	TMP_FILE=/tmp/$NAME.$2
 
-	silent scp $REMOTE:$1.git/bob/scripts/$2 /tmp/$RAN || exit 1
-	${EDITOR:-vim} /tmp/$RAN
-	silent scp /tmp/$RAN $REMOTE:$1.git/bob/scripts/$2 || exit 1
-	rm -f /tmp/$RAN
+	silent scp $REMOTE:$SCRIPT $TMP_FILE || exit 1
+	${EDITOR:-vim} $TMP_FILE
+	silent scp $TMP_FILE $REMOTE:$SCRIPT || exit 1
+	rm -f $TMP_FILE
 }
 
 cmd-redeploy () {
 	set-remote $1
-	ssh $REMOTE "cd $1.git && hooks/post-receive"
+	ssh $REMOTE "cd $REPO_NAME && hooks/post-receive"
 }
 
 cmd-restart () {
 	set-remote $1
 	(
-		echo "[ ! -d $1.git/bob/release ] && echo No release found && exit 1"
-		echo "cd $1.git/bob/release"
+		echo "[ ! -d $REPO_NAME/bob/release ] && echo No release found && exit 1"
+		echo "cd $REPO_NAME/bob/release"
 		echo "[ -f ../scripts/restart ] && ../scripts/restart"
 	) | ssh $REMOTE bash
 }
