@@ -94,9 +94,10 @@ bob-rename () {
 	git remote rename $NAME $NEW_NAME
 }
 
+opt push --force,-f
 cmd-push () {
 	set-remote $1 # just for sanity checks
-	git push $@
+	git push $@ $(opt --force && echo --force)
 }
 
 cmd-remove () {
