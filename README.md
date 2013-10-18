@@ -22,6 +22,9 @@ All commands can be autocompleted by doing bob <tab><tab>
   will add and instantiate a new remote to the repository
     --scripts to specify a different script folder than the default one
 
+  bob rename [old-name] [new-name]
+  will rename the remote locally and on the remote server
+
   bob edit [remote] profile|build|deploy|restart|bundled-launch
   edit the scripts associated with your remote
   bundled-launch is the launch script that is bundled with your application
@@ -49,4 +52,5 @@ All commands can be autocompleted by doing bob <tab><tab>
   bob remove
   will execute the remove script on the remote
   and remove the remote afterwards
+
 ```
