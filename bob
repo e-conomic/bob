@@ -86,6 +86,14 @@ tab-push-2 () {
 	git branch | sed 's/\* //'
 }
 
+bob-rename () {
+	set-remote $1
+	NEW_NAME=$2
+	NEW_REPO_NAME=$NEW_NAME.git
+	ssh $REMOTE "mv $REPO_NAME $NEW_REPO_NAME"
+	git remote rename $NAME $NEW_NAME
+}
+
 cmd-push () {
 	set-remote $1 # just for sanity checks
 	git push $@
