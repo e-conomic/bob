@@ -21,7 +21,7 @@ error () {
 if [ -d checkout ]; then
 	cd checkout
 	silent git reset --hard
-	silent git pull origin master --force
+	silent git pull ../.. master --force
 else
 	silent git clone .. checkout
 	cd checkout
