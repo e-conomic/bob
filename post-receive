@@ -20,8 +20,8 @@ error () {
 
 if [ -d checkout ]; then
 	cd checkout
-	silent git reset --hard
-	silent git pull ../.. master --force
+	silent git fetch --force
+	silent git reset --hard origin/master
 else
 	silent git clone .. checkout
 	cd checkout
